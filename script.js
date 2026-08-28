@@ -1,118 +1,40 @@
-// ==============================
-// TechPedia JavaScript
-// ==============================
-
-
-// تغییر حالت روشن و تاریک
 function toggleDarkMode() {
-
     document.body.classList.toggle("dark");
-
 }
-
-
-// ==============================
-// جستجوی مقالات
-// ==============================
 
 function searchArticles() {
 
-    const searchInput =
-        document.getElementById("search");
+    let search = document.getElementById("search").value.toLowerCase();
 
-    const articles =
-        document.querySelectorAll(".article");
-
-    const text =
-        searchInput.value.toLowerCase().trim();
-
+    let articles = document.querySelectorAll(".article");
 
     articles.forEach(function(article) {
 
-        const title =
-            article.getAttribute("data-title").toLowerCase();
+        let text = article.textContent.toLowerCase();
 
-        const content =
-            article.textContent.toLowerCase();
-
-
-        if (
-            title.includes(text) ||
-            content.includes(text)
-        ) {
-
+        if (text.includes(search)) {
             article.style.display = "";
-
         } else {
-
             article.style.display = "none";
-
         }
 
     });
-
 }
-
-
-// ==============================
-// نمایش مقاله با کلیک موضوع
-// ==============================
 
 function showArticle(type) {
 
-    const articles =
-        document.querySelectorAll(".article");
+    let articles = document.querySelectorAll(".article");
 
     articles.forEach(function(article) {
-
         article.style.display = "none";
-
     });
 
+    let selected = document.querySelector('[data-title*="' + type + '"]');
 
-    let selectedArticle = null;
-
-
-    if (type === "html") {
-        selectedArticle =
-            document.querySelector('[data-title*="html"]');
-    }
-
-    if (type === "css") {
-        selectedArticle =
-            document.querySelector('[data-title*="css"]');
-    }
-
-    if (type === "js") {
-        selectedArticle =
-            document.querySelector('[data-title*="javascript"]');
-    }
-
-    if (type === "ai") {
-        selectedArticle =
-            document.querySelector('[data-title*="هوش مصنوعی"]');
-    }
-
-    if (type === "network") {
-        selectedArticle =
-            document.querySelector('[data-title*="شبکه"]');
-    }
-
-    if (type === "security") {
-        selectedArticle =
-            document.querySelector('[data-title*="امنیت"]');
-    }
-
-
-    if (selectedArticle) {
-
-        selectedArticle.style.display = "";
-
-        selectedArticle.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
+    if (selected) {
+        selected.style.display = "";
+        selected.scrollIntoView({
+            behavior: "smooth"
         });
-
     }
-
 }
