@@ -2,41 +2,39 @@ function toggleDarkMode() {
     document.body.classList.toggle("dark");
 }
 
+
 function searchArticles() {
 
-    const searchBox = document.getElementById("search");
+    const searchInput = document.getElementById("search");
     const articles = document.querySelectorAll(".article");
 
-    if (!searchBox) return;
+    if (!searchInput) return;
 
-    const searchText = searchBox.value.trim().toLowerCase();
+    const searchText = searchInput.value.trim().toLowerCase();
 
     articles.forEach(function(article) {
 
-        const content = (
-            article.innerText + " " +
-            (article.getAttribute("data-title") || "")
-        ).toLowerCase();
+        const title = article.getAttribute("data-title") || "";
+        const content = article.textContent || "";
 
-        if (searchText === "" || content.includes(searchText)) {
+        const fullText = (title + " " + content).toLowerCase();
 
-            article.style.setProperty("display", "block", "important");
-
+        if (searchText === "" || fullText.includes(searchText)) {
+            article.style.display = "";
         } else {
-
-            article.style.setProperty("display", "none", "important");
-
+            article.style.display = "none";
         }
 
     });
 }
+
 
 function showArticle(type) {
 
     const articles = document.querySelectorAll(".article");
 
     articles.forEach(function(article) {
-        article.style.setProperty("display", "none", "important");
+        article.style.display = "none";
     });
 
     let selectedArticle = null;
@@ -45,37 +43,49 @@ function showArticle(type) {
         selectedArticle = document.querySelector('[data-title*="html"]');
     }
 
-    else if (type === "css") {
+    if (type === "css") {
         selectedArticle = document.querySelector('[data-title*="css"]');
     }
 
-    else if (type === "js") {
+    if (type === "js") {
         selectedArticle = document.querySelector('[data-title*="javascript"]');
     }
 
-    else if (type === "ai") {
+    if (type === "ai") {
         selectedArticle = document.querySelector('[data-title*="هوش مصنوعی"]');
     }
 
-    else if (type === "network") {
+    if (type === "network") {
         selectedArticle = document.querySelector('[data-title*="شبکه"]');
     }
 
-    else if (type === "security") {
+    if (type === "security") {
         selectedArticle = document.querySelector('[data-title*="امنیت"]');
     }
 
     if (selectedArticle) {
 
-        selectedArticle.style.setProperty(
-            "display",
-            "block",
-            "important"
-        );
+        selectedArticle.style.display = "";
 
         selectedArticle.scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
+
     }
 }
+
+
+/* اجرای خودکار جستجو هنگام تایپ */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const searchInput = document.getElementById("search");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("input", searchArticles);
+
+    }
+
+});
